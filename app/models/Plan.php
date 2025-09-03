@@ -48,12 +48,13 @@ class Plan extends Model {
     
     public function createPlan($userId, $type, $title, $content) {
         // Desativar planos anteriores do mesmo tipo
-        $this->db->update(
-            $this->table,
-            ['status' => 'inativo'],
-            'user_id = :user_id AND type = :type AND status = :status',
-            ['user_id' => $userId, 'type' => $type, 'status' => 'ativo']
-        );
+            $this->db->update(
+                $this->table,
+                ['status' => 'inativo'],
+                'user_id = :user_id AND type = :type',
+                ['user_id' => $userId, 'type' => $type]
+            );
+
         
         // Criar novo plano
         $planData = [
