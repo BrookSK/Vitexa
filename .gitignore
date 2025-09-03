@@ -32,4 +32,7 @@ Thumbs.db
 # Ignorar arquivos de ambiente de desenvolvimento
 php.ini
 
+# Ignorar arquivo de configuração do sistema
+config.php
+
 
