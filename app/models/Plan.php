@@ -178,6 +178,14 @@ class Plan extends Model {
         }
         
         $exercises = $this->getExercises($activePlan['id']);
+
+        // Adicionar verificação para garantir que $exercises não está vazio e é um array
+        if (empty($exercises) || !is_array($exercises)) {
+            return [
+                'plan' => $activePlan,
+                'weekly_workout' => [] // Retorna um array vazio para evitar o erro
+            ];
+        }
         
         // Organizar exercícios por dia da semana
         $weeklyWorkout = [];
@@ -192,10 +200,17 @@ class Plan extends Model {
         ];
         
         foreach ($exercises as $exercise) {
+            // Adicionar verificação para garantir que $exercise é um array e tem a chave 'day_of_week'
+            if (!is_array($exercise) || !isset($exercise['day_of_week'])) {
+                // Logar o erro ou pular este item malformado
+                error_log("Erro: Exercício malformado encontrado sem 'day_of_week' em Plan.php:198");
+                continue; // Pula para o próximo item no loop
+            }
+
             $day = $exercise['day_of_week'];
             if (!isset($weeklyWorkout[$day])) {
                 $weeklyWorkout[$day] = [
-                    'day_name' => $dayNames[$day],
+                    'day_name' => $dayNames[$day] ?? 'Desconhecido',
                     'exercises' => []
                 ];
             }
