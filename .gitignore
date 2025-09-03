@@ -1,0 +1,35 @@
+# Ignorar diretórios de dependências
+/vendor/
+/node_modules/
+
+# Ignorar arquivos de configuração sensíveis
+.env
+
+# Ignorar logs e cache
+/logs/
+/tmp/vitexa_cache/
+
+# Ignorar arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de IDEs
+.idea/
+.vscode/
+*.iml
+
+# Ignorar arquivos de build e pacotes
+*.zip
+*.tar.gz
+*.rar
+
+# Ignorar arquivos de teste
+/tests/
+
+# Ignorar arquivos de upload (se houver)
+/public/uploads/
+
+# Ignorar arquivos de ambiente de desenvolvimento
+php.ini
+
+
