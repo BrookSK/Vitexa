@@ -74,7 +74,7 @@ if (!headers_sent()) {
     header('X-XSS-Protection: 1; mode=block');
     
     // Content Security Policy
-    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.openai.com;");
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'blob:' https://cdn.jsdelivr.net https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.openai.com;");
     
     // HSTS (apenas em produção)
     if (APP_ENV === 'production' && isset($_SERVER['HTTPS'])) {

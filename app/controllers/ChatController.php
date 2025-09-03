@@ -36,16 +36,35 @@ class ChatController extends Controller {
         try {
             $messageModel = new Message();
             
-            // Salvar mensagem do usuário e resposta da IA em uma única transação
-            $messageModel->saveConversation($user["id"], $message, $this->generateAIResponse($user, $message));
+            // Salvar mensagem do usuário
+            $userMessageResult = $messageModel->saveUserMessage($user["id"], $message);
+            $userMessageId = $userMessageResult["id"];
             
-            // Como saveConversation já salva ambas as mensagens, não precisamos dos IDs aqui para o JSON de retorno
-            // Se precisar dos IDs, você pode ajustar saveConversation para retorná-los ou buscar as últimas mensagens
+            // Gerar resposta da IA
+            $aiResponse = $this->generateAIResponse($user, $message);
+            
+            // Salvar resposta da IA
+            $aiMessageResult = $messageModel->saveBotResponse($user["id"], $aiResponse);
+            $aiMessageId = $aiMessageResult["id"];
             
             $this->json([
                 "success" => true,
-                "message" => "Mensagem processada com sucesso!"
-                // Você pode ajustar o JSON de retorno para incluir as mensagens salvas se necessário
+                "user_message" => [
+                    "id" => $userMessageId,
+                    "message" => $message,
+                    "type" => "user",
+
+
+                "created_at" => date('Y-m-d H:i:s')
+                ],
+                "ai_message" => [
+                    "id" => $aiMessageId,
+                    "message" => $aiResponse,
+                    "type" => "assistant",
+
+
+                "created_at" => date('Y-m-d H:i:s')
+                ]
             ]);
             
         } catch (Exception $e) {

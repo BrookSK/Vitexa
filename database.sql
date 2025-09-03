@@ -146,6 +146,9 @@ CREATE TABLE sessions (
     INDEX idx_last_activity (last_activity)
 );
 
+-- Alterar a tabela de mensagens do chat
+ALTER TABLE messages ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 -- Inserir dados de exemplo para desenvolvimento
 INSERT INTO users (name, email, password_hash, age, weight, height, goal) VALUES
 ('João Silva', 'joao@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 28, 75.5, 175, 'ganhar_massa'),
