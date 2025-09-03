@@ -84,6 +84,7 @@ try {
     // Rotas do chat
     $router->get('/chat', 'Chat@index', ['AuthMiddleware']);
     $router->post('/chat/send', 'Chat@send', ['AuthMiddleware']);
+    $router->post('/chat/clear', 'ChatController@clear', ['AuthMiddleware']);
     
     // Rotas de progresso
     $router->get('/progress', 'User@progress', ['AuthMiddleware']);

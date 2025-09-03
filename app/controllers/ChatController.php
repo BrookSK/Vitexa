@@ -8,13 +8,13 @@ class ChatController extends Controller {
         $user = $this->getCurrentUser();
         $messageModel = new Message();
         
-        // Obter histórico de mensagens do usuário
-        $messages = $messageModel->getUserMessages($user['id'], 50); // Últimas 50 mensagens
+        // Obter histórico de conversas do usuário (pares de mensagem/resposta)
+        $conversations = $messageModel->getConversationHistory($user["id"], 25); // Últimas 25 conversas (50 mensagens)
         
         echo $this->render('chat/index', [
             'title' => 'Chat IA - ' . APP_NAME,
             'user' => $user,
-            'messages' => $messages
+            'conversations' => $conversations // Passar as conversas para a view
         ]);
     }
     

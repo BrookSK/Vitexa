@@ -97,24 +97,22 @@
         <form id="chatForm" onsubmit="sendMessage(event)" class="flex items-center space-x-3">
             <input type="hidden" name="_token" value="<?= $csrf_token ?>">
             <div class="flex-1 relative">
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     id="messageInput"
                     name="message"
                     placeholder="Digite sua mensagem..."
                     class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     maxlength="1000"
-                    required
-                >
+                    required>
                 <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
                     <span id="charCount">0</span>/1000
                 </div>
             </div>
-            <button 
+            <button
                 type="submit"
                 id="sendButton"
-                class="bg-primary-500 text-white p-2 rounded-full hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+                class="bg-primary-500 text-white p-2 rounded-full hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
@@ -128,20 +126,20 @@
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <h3 class="text-sm font-medium text-gray-900 mb-3">💡 Perguntas frequentes:</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <button onclick="sendSuggestedMessage('Como posso melhorar meu treino?')" 
-                            class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
+                    <button onclick="sendSuggestedMessage('Como posso melhorar meu treino?')"
+                        class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
                         Como posso melhorar meu treino?
                     </button>
-                    <button onclick="sendSuggestedMessage('Que alimentos devo evitar?')" 
-                            class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
+                    <button onclick="sendSuggestedMessage('Que alimentos devo evitar?')"
+                        class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
                         Que alimentos devo evitar?
                     </button>
-                    <button onclick="sendSuggestedMessage('Como manter a motivação?')" 
-                            class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
+                    <button onclick="sendSuggestedMessage('Como manter a motivação?')"
+                        class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
                         Como manter a motivação?
                     </button>
-                    <button onclick="sendSuggestedMessage('Dicas para dormir melhor?')" 
-                            class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
+                    <button onclick="sendSuggestedMessage('Dicas para dormir melhor?')"
+                        class="text-left p-2 text-sm text-gray-600 hover:bg-gray-50 rounded border border-gray-200 transition duration-150">
                         Dicas para dormir melhor?
                     </button>
                 </div>
@@ -151,92 +149,92 @@
 </div>
 
 <script>
-// Variáveis globais
-let isTyping = false;
+    // Variáveis globais
+    let isTyping = false;
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', function() {
-    const messageInput = document.getElementById('messageInput');
-    const charCount = document.getElementById('charCount');
-    
-    // Contador de caracteres
-    messageInput.addEventListener('input', function() {
-        charCount.textContent = this.value.length;
-    });
-    
-    // Scroll para o final das mensagens
-    scrollToBottom();
-    
-    // Focar no input
-    messageInput.focus();
-});
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        const messageInput = document.getElementById('messageInput');
+        const charCount = document.getElementById('charCount');
 
-// Enviar mensagem
-async function sendMessage(event) {
-    event.preventDefault();
-    
-    if (isTyping) return;
-    
-    const form = event.target;
-    const formData = new FormData(form);
-    const messageInput = document.getElementById('messageInput');
-    const sendButton = document.getElementById('sendButton');
-    const message = messageInput.value.trim();
-    
-    if (!message) return;
-    
-    // Desabilitar input e botão
-    messageInput.disabled = true;
-    sendButton.disabled = true;
-    isTyping = true;
-    
-    // Adicionar mensagem do usuário à interface
-    addUserMessage(message);
-    
-    // Limpar input
-    messageInput.value = '';
-    document.getElementById('charCount').textContent = '0';
-    
-    // Mostrar indicador de digitação
-    showTypingIndicator();
-    
-    try {
-        const response = await fetch('/chat/send', {
-            method: 'POST',
-            body: formData
+        // Contador de caracteres
+        messageInput.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
         });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            // Adicionar resposta da IA
-            addAIMessage(result.ai_message.message);
-        } else {
-            addAIMessage('Desculpe, ocorreu um erro. Tente novamente.');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        addAIMessage('Desculpe, não consegui processar sua mensagem. Verifique sua conexão e tente novamente.');
-    } finally {
-        // Reabilitar input e botão
-        messageInput.disabled = false;
-        sendButton.disabled = false;
-        isTyping = false;
-        
-        // Esconder indicador de digitação
-        hideTypingIndicator();
-        
+
+        // Scroll para o final das mensagens
+        scrollToBottom();
+
         // Focar no input
         messageInput.focus();
-    }
-}
+    });
 
-// Adicionar mensagem do usuário
-function addUserMessage(message) {
-    const container = document.getElementById('messagesContainer');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'flex items-start space-x-3 justify-end';
-    messageDiv.innerHTML = `
+    // Enviar mensagem
+    async function sendMessage(event) {
+        event.preventDefault();
+
+        if (isTyping) return;
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const message = messageInput.value.trim();
+
+        if (!message) return;
+
+        // Desabilitar input e botão
+        messageInput.disabled = true;
+        sendButton.disabled = true;
+        isTyping = true;
+
+        // Adicionar mensagem do usuário à interface
+        addUserMessage(message);
+
+        // Limpar input
+        messageInput.value = '';
+        document.getElementById('charCount').textContent = '0';
+
+        // Mostrar indicador de digitação
+        showTypingIndicator();
+
+        try {
+            const response = await fetch('/chat/send', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Adicionar resposta da IA
+                addAIMessage(result.ai_message.message);
+            } else {
+                addAIMessage('Desculpe, ocorreu um erro. Tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            addAIMessage('Desculpe, não consegui processar sua mensagem. Verifique sua conexão e tente novamente.');
+        } finally {
+            // Reabilitar input e botão
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            isTyping = false;
+
+            // Esconder indicador de digitação
+            hideTypingIndicator();
+
+            // Focar no input
+            messageInput.focus();
+        }
+    }
+
+    // Adicionar mensagem do usuário
+    function addUserMessage(message) {
+        const container = document.getElementById('messagesContainer');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-3 justify-end';
+        messageDiv.innerHTML = `
         <div class="bg-primary-500 text-white rounded-lg shadow-sm p-3 max-w-xs lg:max-w-md">
             <p class="text-sm">${escapeHtml(message).replace(/\n/g, '<br>')}</p>
             <div class="text-xs text-primary-100 mt-2">
@@ -247,17 +245,17 @@ function addUserMessage(message) {
             <?= strtoupper(substr($user['name'], 0, 1)) ?>
         </div>
     `;
-    
-    container.appendChild(messageDiv);
-    scrollToBottom();
-}
 
-// Adicionar mensagem da IA
-function addAIMessage(message) {
-    const container = document.getElementById('messagesContainer');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'flex items-start space-x-3';
-    messageDiv.innerHTML = `
+        container.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    // Adicionar mensagem da IA
+    function addAIMessage(message) {
+        const container = document.getElementById('messagesContainer');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-3';
+        messageDiv.innerHTML = `
         <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
             🤖
         </div>
@@ -268,110 +266,113 @@ function addAIMessage(message) {
             </div>
         </div>
     `;
-    
-    container.appendChild(messageDiv);
-    scrollToBottom();
-}
 
-// Mostrar indicador de digitação
-function showTypingIndicator() {
-    document.getElementById('typingIndicator').classList.remove('hidden');
-    scrollToBottom();
-}
-
-// Esconder indicador de digitação
-function hideTypingIndicator() {
-    document.getElementById('typingIndicator').classList.add('hidden');
-}
-
-// Scroll para o final
-function scrollToBottom() {
-    const container = document.getElementById('messagesContainer');
-    setTimeout(() => {
-        container.scrollTop = container.scrollHeight;
-    }, 100);
-}
-
-// Enviar mensagem sugerida
-function sendSuggestedMessage(message) {
-    const messageInput = document.getElementById('messageInput');
-    messageInput.value = message;
-    document.getElementById('chatForm').dispatchEvent(new Event('submit'));
-}
-
-// Limpar chat
-async function clearChat() {
-    if (!confirm('Tem certeza que deseja limpar todo o histórico de conversa?')) {
-        return;
+        container.appendChild(messageDiv);
+        scrollToBottom();
     }
-    
-    try {
-        const response = await fetch('/chat/clear', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                '_token': window.csrfToken
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            // Limpar mensagens da interface
-            const container = document.getElementById('messagesContainer');
-            const messages = container.querySelectorAll('.flex:not(#typingIndicator)');
-            messages.forEach((msg, index) => {
-                if (index > 0) { // Manter mensagem de boas-vindas
-                    msg.remove();
-                }
+
+    // Mostrar indicador de digitação
+    function showTypingIndicator() {
+        document.getElementById('typingIndicator').classList.remove('hidden');
+        scrollToBottom();
+    }
+
+    // Esconder indicador de digitação
+    function hideTypingIndicator() {
+        document.getElementById('typingIndicator').classList.add('hidden');
+    }
+
+    // Scroll para o final
+    function scrollToBottom() {
+        const container = document.getElementById('messagesContainer');
+        setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+        }, 100);
+    }
+
+    // Enviar mensagem sugerida
+    function sendSuggestedMessage(message) {
+        const messageInput = document.getElementById('messageInput');
+        messageInput.value = message;
+        document.getElementById('chatForm').dispatchEvent(new Event('submit'));
+    }
+
+    // Limpar chat
+    async function clearChat() {
+        if (!confirm('Tem certeza que deseja limpar todo o histórico de conversa?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/chat/clear', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    '_token': window.csrfToken
+                })
             });
-        } else {
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Limpar mensagens da interface
+                const container = document.getElementById('messagesContainer');
+                const messages = container.querySelectorAll('.flex:not(#typingIndicator)');
+                messages.forEach((msg, index) => {
+                    if (index > 0) { // Manter mensagem de boas-vindas
+                        msg.remove();
+                    }
+                });
+            } else {
+                alert('Erro ao limpar histórico');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
             alert('Erro ao limpar histórico');
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao limpar histórico');
     }
-}
 
-// Utilitário para escapar HTML
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+    // Utilitário para escapar HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 
-// Configurar CSRF token global
-window.csrfToken = '<?= $csrf_token ?>';
+    // Configurar CSRF token global
+    window.csrfToken = '<?= $csrf_token ?>';
 </script>
 
 <style>
-/* Animações personalizadas */
-@keyframes bounce {
-    0%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-6px);
-    }
-}
+    /* Animações personalizadas */
+    @keyframes bounce {
 
-.animate-bounce {
-    animation: bounce 1.4s infinite;
-}
+        0%,
+        80%,
+        100% {
+            transform: translateY(0);
+        }
 
-/* Scroll suave */
-#messagesContainer {
-    scroll-behavior: smooth;
-}
-
-/* Responsividade para mobile */
-@media (max-width: 768px) {
-    .max-w-xs {
-        max-width: calc(100vw - 120px);
+        40% {
+            transform: translateY(-6px);
+        }
     }
-}
+
+    .animate-bounce {
+        animation: bounce 1.4s infinite;
+    }
+
+    /* Scroll suave */
+    #messagesContainer {
+        scroll-behavior: smooth;
+    }
+
+    /* Responsividade para mobile */
+    @media (max-width: 768px) {
+        .max-w-xs {
+            max-width: calc(100vw - 120px);
+        }
+    }
 </style>
-
