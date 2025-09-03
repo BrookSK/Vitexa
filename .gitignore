@@ -33,7 +33,7 @@ Thumbs.db
 php.ini
 
 # Ignorar arquivo de configuração do sistema
-config.php
+/config/config.php
 
 # Ignorar htaccess
 .htaccess
