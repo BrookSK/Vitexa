@@ -70,6 +70,12 @@ try {
     $router->post('/register', 'Auth@register');
     $router->post('/logout', 'Auth@logout');
     
+    // Rotas de recuperação de senha
+    $router->get("/forgot-password", "Auth@showForgotPassword");
+    $router->post("/forgot-password", "Auth@sendResetLink");
+    $router->get("/reset-password", "Auth@showResetPassword");
+    $router->post("/reset-password", "Auth@resetPassword");
+    
     // Rotas do dashboard (requer autenticação)
     $router->get('/dashboard', 'User@dashboard', ['AuthMiddleware']);
     $router->get('/profile', 'User@profile', ['AuthMiddleware']);

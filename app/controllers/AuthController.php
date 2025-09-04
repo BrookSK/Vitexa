@@ -53,7 +53,7 @@ class AuthController extends Controller {
         $this->flashMessage('success', 'Login realizado com sucesso!');
         
         // Redirecionar para URL pretendida ou dashboard
-        $intendedUrl = $this->session->get('intended_url', APP_URL . '/dashboard');
+        $intendedUrl = $this->session->get('intended_url', '/dashboard');
         $this->session->remove('intended_url');
         $this->redirect($intendedUrl);
     }
@@ -142,5 +142,115 @@ class AuthController extends Controller {
         $this->flashMessage('success', 'Logout realizado com sucesso!');
         $this->redirect(APP_URL . '/login');
     }
-}
+    public function showForgotPassword() {
+        echo $this->render("auth/forgot_password", [
+            "title" => "Esqueceu a Senha - " . APP_NAME
+        ]);
+    }
 
+    public function sendResetLink() {
+        if (!$this->verifyCsrfToken($this->input("_token"))) {
+            $this->flashMessage("error", "Token de segurança inválido");
+            $this->redirect(APP_URL . "/forgot-password");
+        }
+
+        $email = $this->sanitize($this->input("email"));
+
+        $errors = $this->validate([
+            "email" => $email
+        ], [
+            "email" => "required|email"
+        ]);
+
+        if (!empty($errors)) {
+            $this->session->keepErrors($errors);
+            $this->session->keepOldInput(["email" => $email]);
+            $this->redirect(APP_URL . "/forgot-password");
+        }
+
+        $userModel = new User();
+        $user = $userModel->findBy("email", $email);
+
+        if ($user) {
+            // Gerar token de redefinição de senha
+            $token = bin2hex(random_bytes(32));
+            $expiresAt = date("Y-m-d H:i:s", strtotime("+1 hour"));
+
+            // Salvar token no banco de dados (assumindo que User model tem método para isso)
+            $userModel->savePasswordResetToken($user["id"], $token, $expiresAt);
+
+            // Enviar email com o link de redefinição
+            $resetLink = APP_URL . "/reset-password?token=" . $token;
+            // Aqui você integraria um serviço de envio de e-mail
+            // Ex: Mailer::send($email, "Redefinição de Senha", "Clique aqui para redefinir sua senha: " . $resetLink);
+            error_log("Link de redefinição de senha para " . $email . ": " . $resetLink); // Log para debug
+
+            $this->flashMessage("success", "Se o email estiver cadastrado, um link de redefinição foi enviado.");
+        } else {
+            $this->flashMessage("success", "Se o email estiver cadastrado, um link de redefinição foi enviado.");
+        }
+
+        $this->redirect(APP_URL . "/forgot-password");
+    }
+
+    public function showResetPassword() {
+        $token = $this->sanitize($this->input("token"));
+
+        $userModel = new User();
+        $tokenData = $userModel->getPasswordResetToken($token);
+
+        if (!$tokenData || strtotime($tokenData["expires_at"]) < time()) {
+            $this->flashMessage("error", "Token inválido ou expirado.");
+            $this->redirect(APP_URL . "/login");
+        }
+
+        echo $this->render("auth/reset_password", [
+            "title" => "Redefinir Senha - " . APP_NAME,
+            "token" => $token
+        ]);
+    }
+
+    public function resetPassword() {
+        if (!$this->verifyCsrfToken($this->input("_token"))) {
+            $this->flashMessage("error", "Token de segurança inválido");
+            $this->redirect(APP_URL . "/login");
+        }
+
+        $token = $this->sanitize($this->input("token"));
+        $password = $this->input("password");
+        $passwordConfirmation = $this->input("password_confirmation");
+
+        $errors = $this->validate([
+            "password" => $password,
+            "password_confirmation" => $passwordConfirmation
+        ], [
+            "password" => "required|min:" . PASSWORD_MIN_LENGTH . "|confirmed",
+            "password_confirmation" => "required"
+        ]);
+
+        if (!empty($errors)) {
+            $this->session->keepErrors($errors);
+            $this->redirect(APP_URL . "/reset-password?token=" . $token);
+        }
+
+        $userModel = new User();
+        $tokenData = $userModel->getPasswordResetToken($token);
+
+        if (!$tokenData || strtotime($tokenData["expires_at"]) < time()) {
+            $this->flashMessage("error", "Token inválido ou expirado.");
+            $this->redirect(APP_URL . "/login");
+        }
+
+        $user = $userModel->find($tokenData["user_id"]);
+
+        if ($user) {
+            $userModel->updatePassword($user["id"], password_hash($password, PASSWORD_DEFAULT));
+            $userModel->deletePasswordResetToken($token);
+            $this->flashMessage("success", "Sua senha foi redefinida com sucesso! Faça login.");
+            $this->redirect(APP_URL . "/login");
+        } else {
+            $this->flashMessage("error", "Erro ao redefinir senha.");
+            $this->redirect(APP_URL . "/login");
+        }
+    }
+}

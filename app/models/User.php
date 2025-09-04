@@ -172,5 +172,31 @@ class User extends Model {
     public function deleteReminder($reminderId) {
         return $this->db->delete('reminders', 'id = :id', ['id' => $reminderId]);
     }
-}
 
+    public function savePasswordResetToken($userId, $token, $expiresAt) {
+        // Remover tokens antigos para este usuário
+        $this->db->delete("password_resets", "user_id = :user_id", ["user_id" => $userId]);
+
+        // Inserir novo token
+        return $this->db->insert("password_resets", [
+            "user_id" => $userId,
+            "token" => $token,
+            "expires_at" => $expiresAt
+        ]);
+    }
+
+    public function getPasswordResetToken($token) {
+        return $this->db->fetch(
+            "SELECT * FROM password_resets WHERE token = :token AND expires_at > NOW()",
+            ["token" => $token]
+        );
+    }
+
+    public function updatePassword($userId, $newPasswordHash) {
+        return $this->update($userId, ["password_hash" => $newPasswordHash]);
+    }
+
+    public function deletePasswordResetToken($token) {
+        return $this->db->delete("password_resets", "token = :token", ["token" => $token]);
+    }
+}

@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-yellow-300 hover:text-yellow-200">
+                        <a href="<?= APP_URL ?>/forgot-password" class="font-medium text-yellow-300 hover:text-yellow-200">
                             Esqueceu a senha?
                         </a>
                     </div>
