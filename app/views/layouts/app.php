@@ -117,11 +117,11 @@
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
                         <!-- <h1 class="text-xl font-bold text-gray-900"><?= APP_NAME ?></h1> -->
-                        <img src="<?= APP_URL ?>/assets/images/VitexaLogo-SF-Ajustado.png" alt="<?= APP_NAME ?> Logo" class="h-12">
+                        <a href="<?= APP_URL ?>/dashboard"><img src="<?= APP_URL ?>/assets/images/VitexaLogo-SF-Ajustado.png" alt="<?= APP_NAME ?> Logo" class="h-12"></a>
                     </div>
                     
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-600">Olá, <?= htmlspecialchars($current_user['name']) ?></span>
+                        <span class="text-sm text-gray-600"><a href="<?= APP_URL ?>/profile" class="text-sm text-gray-600 hover:underline">Olá, <?= htmlspecialchars($current_user['name']) ?></a></span>
                         <form method="POST" action="<?= APP_URL ?>/logout" class="inline">
                             <input type="hidden" name="_token" value="<?= $csrf_token ?>">
                             <button type="submit" class="text-sm text-red-600 hover:text-red-800">
