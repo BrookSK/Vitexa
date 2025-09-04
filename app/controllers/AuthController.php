@@ -53,7 +53,7 @@ class AuthController extends Controller {
         $this->flashMessage('success', 'Login realizado com sucesso!');
         
         // Redirecionar para URL pretendida ou dashboard
-        $intendedUrl = $this->session->get('intended_url', '/dashboard');
+        $intendedUrl = $this->session->get('intended_url', APP_URL . '/dashboard');
         $this->session->remove('intended_url');
         $this->redirect($intendedUrl);
     }

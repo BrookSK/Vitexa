@@ -332,6 +332,13 @@
                     message.style.display = "none";
                 }, 5000);
             });
+            // Fechar mensagens ao clicar no botão
+            const closeButtons = document.querySelectorAll(".close-flash-message");
+            closeButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    this.closest(".alert").style.display = "none";
+                });
+            });
         });
     </script>
 </body>
