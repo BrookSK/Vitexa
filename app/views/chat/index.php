@@ -45,15 +45,15 @@
         </div>
 
         <!-- Mensagens do Histórico -->
-        <?php if (!empty($messages)): ?>
-            <?php foreach ($messages as $message): ?>
-                <?php if ($message['type'] === 'user'): ?>
+        <?php if (!empty($conversations)): ?>
+            <?php foreach ($conversations as $conversation): ?>
+                <?php if ($conversation['type'] === 'user'): ?>
                     <!-- Mensagem do Usuário -->
                     <div class="flex items-start space-x-3 justify-end">
                         <div class="bg-primary-500 text-white rounded-lg shadow-sm p-3 max-w-xs lg:max-w-md">
-                            <p class="text-sm"><?= nl2br(htmlspecialchars($message['message'])) ?></p>
+                            <p class="text-sm"><?= nl2br(htmlspecialchars($conversation['message'])) ?></p>
                             <div class="text-xs text-primary-100 mt-2">
-                                <?= date('H:i', strtotime($message['created_at'])) ?>
+                                <?= date('H:i', strtotime($conversation['created_at'])) ?>
                             </div>
                         </div>
                         <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-sm font-bold flex-shrink-0">
@@ -67,9 +67,9 @@
                             🤖
                         </div>
                         <div class="bg-white rounded-lg shadow-sm p-3 max-w-xs lg:max-w-md">
-                            <p class="text-gray-800 text-sm"><?= nl2br(htmlspecialchars($message['message'])) ?></p>
+                            <p class="text-gray-800 text-sm"><?= nl2br(htmlspecialchars($conversation['message'])) ?></p>
                             <div class="text-xs text-gray-500 mt-2">
-                                <?= date('H:i', strtotime($message['created_at'])) ?>
+                                <?= date('H:i', strtotime($conversation['created_at'])) ?>
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
     </div>
 
     <!-- Sugestões de Perguntas (aparece quando não há mensagens) -->
-    <?php if (empty($messages)): ?>
+    <?php if (empty($conversations)): ?>
         <div class="px-4 pb-4">
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <h3 class="text-sm font-medium text-gray-900 mb-3">💡 Perguntas frequentes:</h3>
