@@ -35,7 +35,7 @@
                     <svg class="mx-auto h-32 w-32 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <p class="mt-4 text-lg font-medium">Powered by AI</p>
+                    <p class="mt-4 text-lg font-medium">Powered by Vitexa</p>
                 </div>
             </div>
         </div>
