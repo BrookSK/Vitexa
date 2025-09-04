@@ -103,7 +103,7 @@ class ChatController extends Controller {
         $messageModel = new Message();
         
         try {
-            $messageModel->clearUserMessages($user['id']);
+            $messageModel->deleteUserMessages($user['id']);
             $this->json(['success' => true, 'message' => 'Histórico limpo com sucesso']);
         } catch (Exception $e) {
             error_log("Erro ao limpar chat: " . $e->getMessage());
