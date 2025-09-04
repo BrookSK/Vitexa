@@ -296,7 +296,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <p class="text-gray-500 mb-4">Nenhum lembrete configurado</p>
-                            <button class="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-700 transition duration-150">
+                            <button onclick="openReminderModal()" class="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-700 transition duration-150">
                                 Criar Lembrete
                             </button>
                         </div>
@@ -407,3 +407,87 @@ async function submitProgress(event) {
 }
 </script>
 
+
+
+<!-- Modal para Criar/Editar Lembrete -->
+<div id="reminderModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="modalTitle" class="text-lg font-semibold text-gray-900">Novo Lembrete</h3>
+                <button onclick="closeReminderModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="reminderForm" onsubmit="saveReminder(event)">
+                <input type="hidden" name="_token" value="<?= $csrf_token ?>">
+                <input type="hidden" id="reminderId" name="reminder_id">
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
+                        <input type="text" id="reminderTitle" name="title" required maxlength="100"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                               placeholder="Ex: Hora do treino!">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+                        <textarea id="reminderMessage" name="message" rows="2" maxlength="255"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                  placeholder="Mensagem motivacional (opcional)"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tipo *</label>
+                        <select id="reminderType" name="type" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Selecione o tipo</option>
+                            <option value="treino">💪 Treino</option>
+                            <option value="dieta">🥗 Dieta</option>
+                            <option value="agua">💧 Água</option>
+                            <option value="medicamento">💊 Medicamento</option>
+                            <option value="geral">⏰ Geral</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Horário *</label>
+                        <input type="time" id="reminderTime" name="time" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Dias da Semana *</label>
+                        <div class="grid grid-cols-7 gap-1">
+                            <?php 
+                            $days = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+                            for ($i = 0; $i < 7; $i++): 
+                            ?>
+                                <label class="flex flex-col items-center">
+                                    <input type="checkbox" name="days_of_week[]" value="<?= $i ?>" 
+                                           class="form-checkbox h-5 w-5 text-primary-600 rounded focus:ring-primary-500">
+                                    <span class="mt-1 text-xs"><?= $days[$i] ?></span>
+                                </label>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex space-x-3 mt-6">
+                    <button type="button" onclick="closeReminderModal()"
+                            class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="flex-1 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

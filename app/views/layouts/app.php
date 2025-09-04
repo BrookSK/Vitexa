@@ -197,6 +197,131 @@
             
             return originalFetch(url, options);
         };
+
+        // Reminder Modal Script
+        function openReminderModal() {
+            document.getElementById("reminderModal").classList.remove("hidden");
+        }
+
+        function closeReminderModal() {
+            document.getElementById("reminderModal").classList.add("hidden");
+        }
+
+        async function saveReminder(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch("/reminders/save", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    closeReminderModal();
+                    location.reload();
+                } else {
+                    alert(result.error || "Erro ao salvar lembrete");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Erro ao salvar lembrete");
+            }
+        }
+
+        async function editReminder(id) {
+            try {
+                const response = await fetch(`/reminders/get/${id}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const reminder = result.reminder;
+                    document.getElementById("modalTitle").textContent = "Editar Lembrete";
+                    document.getElementById("reminderId").value = reminder.id;
+                    document.getElementById("reminderTitle").value = reminder.title;
+                    document.getElementById("reminderMessage").value = reminder.message;
+                    document.getElementById("reminderType").value = reminder.type;
+                    document.getElementById("reminderTime").value = reminder.time.substring(0, 5);
+
+                    const daysOfWeek = JSON.parse(reminder.days_of_week);
+                    document.querySelectorAll("input[name=\'days_of_week[]\']").forEach(checkbox => {
+                        checkbox.checked = daysOfWeek.includes(parseInt(checkbox.value));
+                    });
+
+                    openReminderModal();
+                } else {
+                    alert(result.error || "Erro ao carregar lembrete para edição");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Erro ao carregar lembrete para edição");
+            }
+        }
+
+        async function deleteReminder(id) {
+            if (!confirm("Tem certeza que deseja deletar este lembrete?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch("/reminders/delete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams({
+                        "_token": window.csrfToken,
+                        "reminder_id": id
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    const reminderElement = document.querySelector(`[data-id="${id}"]`);
+                    if (reminderElement) {
+                        reminderElement.remove();
+                    }
+                } else {
+                    alert(result.error || "Erro ao deletar lembrete");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Erro ao deletar lembrete");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggles = document.querySelectorAll(".reminder-toggle");
+            toggles.forEach(toggle => {
+                toggle.addEventListener("change", async function() {
+                    const id = this.dataset.id;
+                    try {
+                        const response = await fetch("/reminders/toggle", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: new URLSearchParams({
+                                "_token": window.csrfToken,
+                                "reminder_id": id
+                            })
+                        });
+                        const result = await response.json();
+                        if (!result.success) {
+                            this.checked = !this.checked;
+                            alert(result.error || "Erro ao alterar status");
+                        }
+                    } catch (error) {
+                        console.error("Erro:", error);
+                        this.checked = !this.checked;
+                        alert("Erro ao alterar status");
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
