@@ -46,18 +46,18 @@
 
         <!-- Mensagens do Histórico -->
         <?php if (!empty($conversations)): ?>
-            <?php foreach ($conversations as $conversation): ?>
-                <?php if ($conversation['type'] === 'user'): ?>
+            <?php foreach ($conversations as $message): ?>
+                <?php if ($message["type"] === "user"): ?>
                     <!-- Mensagem do Usuário -->
                     <div class="flex items-start space-x-3 justify-end">
                         <div class="bg-primary-500 text-white rounded-lg shadow-sm p-3 max-w-xs lg:max-w-md">
-                            <p class="text-sm"><?= nl2br(htmlspecialchars($conversation['message'])) ?></p>
+                            <p class="text-sm"><?= nl2br(htmlspecialchars($message["message"])) ?></p>
                             <div class="text-xs text-primary-100 mt-2">
-                                <?= date('H:i', strtotime($conversation['created_at'])) ?>
+                                <?= date("H:i", strtotime($message["created_at"])) ?>
                             </div>
                         </div>
                         <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-sm font-bold flex-shrink-0">
-                            <?= strtoupper(substr($user['name'], 0, 1)) ?>
+                            <?= strtoupper(substr($user["name"], 0, 1)) ?>
                         </div>
                     </div>
                 <?php else: ?>
@@ -67,9 +67,9 @@
                             🤖
                         </div>
                         <div class="bg-white rounded-lg shadow-sm p-3 max-w-xs lg:max-w-md">
-                            <p class="text-gray-800 text-sm"><?= nl2br(htmlspecialchars($conversation['message'])) ?></p>
+                            <p class="text-gray-800 text-sm"><?= nl2br(htmlspecialchars($message["message"])) ?></p>
                             <div class="text-xs text-gray-500 mt-2">
-                                <?= date('H:i', strtotime($conversation['created_at'])) ?>
+                                <?= date("H:i", strtotime($message["created_at"])) ?>
                             </div>
                         </div>
                     </div>

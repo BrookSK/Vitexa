@@ -70,38 +70,35 @@ class Message extends Model {
         }
     }
     
-    public function getConversationHistory($userId, $limit = 10) {
-        $sql = "SELECT message, response, type, context, created_at 
+    public function getConversationHistory($userId, $limit = 50) {
+        $sql = "SELECT message, response, type, created_at 
                 FROM {$this->table} 
                 WHERE user_id = :user_id 
-                ORDER BY created_at DESC 
+                ORDER BY created_at ASC 
                 LIMIT :limit";
         
         $messages = $this->db->fetchAll($sql, [
             'user_id' => $userId,
-            'limit' => $limit * 2 // Multiplicar por 2 para pegar pares de mensagem/resposta
+            'limit' => $limit
         ]);
         
-        // Organizar em pares de conversação
-        $conversations = [];
-        $currentConversation = null;
-        
-        foreach (array_reverse($messages) as $message) {
-            if ($message['type'] === 'user') {
-                $currentConversation = [
-                    'user_message' => $message['message'],
-                    'bot_response' => null,
-                    'timestamp' => $message['created_at'],
-                    'context' => $message['context'] ? json_decode($message['context'], true) : null
+        $formattedMessages = [];
+        foreach ($messages as $msg) {
+            if ($msg['type'] === 'user') {
+                $formattedMessages[] = [
+                    'type' => 'user',
+                    'message' => $msg['message'],
+                    'created_at' => $msg['created_at']
                 ];
-            } elseif ($message['type'] === 'bot' && $currentConversation) {
-                $currentConversation['bot_response'] = $message['response'];
-                $conversations[] = $currentConversation;
-                $currentConversation = null;
+            } elseif ($msg['type'] === 'bot') {
+                $formattedMessages[] = [
+                    'type' => 'bot',
+                    'message' => $msg['response'],
+                    'created_at' => $msg['created_at']
+                ];
             }
         }
-        
-        return array_slice($conversations, -$limit); // Retornar apenas o limite solicitado
+        return $formattedMessages;
     }
     
     public function getMessageStats($userId) {
@@ -207,4 +204,3 @@ class Message extends Model {
         ]);
     }
 }
-
