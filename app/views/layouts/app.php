@@ -122,7 +122,7 @@
                     
                     <div class="flex items-center space-x-4">
                         <span class="text-sm text-gray-600">Olá, <?= htmlspecialchars($current_user['name']) ?></span>
-                        <form method="POST" action="/logout" class="inline">
+                        <form method="POST" action="<?= APP_URL ?>/logout" class="inline">
                             <input type="hidden" name="_token" value="<?= $csrf_token ?>">
                             <button type="submit" class="text-sm text-red-600 hover:text-red-800">
                                 Sair
@@ -322,6 +322,15 @@
                         alert("Erro ao alterar status");
                     }
                 });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const flashMessages = document.querySelectorAll(".alert");
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.style.display = "none";
+                }, 5000);
             });
         });
     </script>
