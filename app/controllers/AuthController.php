@@ -42,7 +42,7 @@ class AuthController extends Controller {
         $userModel = new User();
         $user = $userModel->findBy('email', $email);
         
-        if (!$user || !password_verify($password, $user['password_hash'])) {
+        if (!$user || !isset($user["password_hash"]) || !password_verify($password, $user["password_hash"])) {
             $this->flashMessage('error', 'Email ou senha incorretos');
             $this->session->keepOldInput(['email' => $email]);
             $this->redirect(APP_URL . '/login');

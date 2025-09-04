@@ -6,7 +6,7 @@ class User extends Model {
     protected $fillable = [
         'name', 'email', 'password_hash', 'age', 'weight', 'height', 'goal'
     ];
-    protected $hidden = ['password_hash'];
+    protected $hidden = [];
     protected $timestamps = true;
     
     public function authenticate($email, $password) {
