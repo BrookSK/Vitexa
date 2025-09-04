@@ -91,7 +91,7 @@ try {
     $router->post('/progress', 'User@updateProgress', ['AuthMiddleware']);
     
     // Rotas de Lembretes
-    $router->post("/reminders/save", "Reminder@save", ["AuthMiddleware"]);
+    $router->post("/reminders/save", "Reminder@create", ["AuthMiddleware"]);
     $router->get("/reminders/get/{id}", "Reminder@get", ["AuthMiddleware"]);
     $router->post("/reminders/delete", "Reminder@delete", ["AuthMiddleware"]);
     $router->post("/reminders/toggle", "Reminder@toggle", ["AuthMiddleware"]);
