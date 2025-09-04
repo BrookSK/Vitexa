@@ -63,7 +63,7 @@ class ReminderController extends Controller {
         }
         
         try {
-            $reminderId = $userModel->createReminder($user['id'], $data);
+            $reminderId = $userModel->addReminder($user['id'], $data);
             
             $this->json([
                 'success' => true,
