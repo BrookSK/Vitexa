@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= $csrf_token ?>">
+    <link rel="icon" href="<?= APP_URL ?>/assets/images/Vitexa-Icone.png" type="image/png">
     <title><?= $title ?? APP_NAME ?></title>
     
     <!-- Tailwind CSS -->
@@ -115,7 +116,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-bold text-gray-900"><?= APP_NAME ?></h1>
+                        <!-- <h1 class="text-xl font-bold text-gray-900"><?= APP_NAME ?></h1> -->
+                        <img src="<?= APP_URL ?>/assets/images/VitexaLogo-SF-Ajustado.png" alt="<?= APP_NAME ?> Logo" class="h-12">
                     </div>
                     
                     <div class="flex items-center space-x-4">
