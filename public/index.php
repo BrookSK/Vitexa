@@ -90,10 +90,16 @@ try {
     $router->get('/progress', 'User@progress', ['AuthMiddleware']);
     $router->post('/progress', 'User@updateProgress', ['AuthMiddleware']);
     
+    // Rotas de Lembretes
+    $router->post("/reminders/save", "Reminder@save", ["AuthMiddleware"]);
+    $router->get("/reminders/get/{id}", "Reminder@get", ["AuthMiddleware"]);
+    $router->post("/reminders/delete", "Reminder@delete", ["AuthMiddleware"]);
+    $router->post("/reminders/toggle", "Reminder@toggle", ["AuthMiddleware"]);
+
     // API Routes
-    $router->post('/api/chat', 'Chat@apiSend', ['AuthMiddleware']);
-    $router->get('/api/user', 'User@apiUser', ['AuthMiddleware']);
-    $router->post('/api/plans/generate', 'Plan@apiGenerate', ['AuthMiddleware']);
+    $router->post("/api/chat", "Chat@apiSend", ["AuthMiddleware"]);
+    $router->get("/api/user", "User@apiUser", ["AuthMiddleware"]);
+    $router->post("/api/plans/generate", "Plan@apiGenerate", ["AuthMiddleware"]);
     
     // Resolver rota
     $router->resolve();
@@ -113,4 +119,3 @@ try {
 
 // Limpar buffer de saída
 ob_end_flush();
-
