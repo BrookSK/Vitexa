@@ -26,7 +26,7 @@ class Mailer {
         try {
             // Configurações do servidor SMTP
             $this->phpMailer->isSMTP();
-            $this->phpMailer->Host = defined('MAIL_HOST') ? MAIL_HOST : 'mail.lrvweb.com.br';
+            $this->phpMailer->Host = defined('MAIL_HOST') ? MAIL_HOST : 'lrvweb.com.br';
             $this->phpMailer->SMTPAuth = true;
             $this->phpMailer->Username = defined('MAIL_USERNAME') ? MAIL_USERNAME : 'contato@lrvweb.com.br';
             $this->phpMailer->Password = defined('MAIL_PASSWORD') ? MAIL_PASSWORD : 'cd980358';
