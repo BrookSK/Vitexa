@@ -1,6 +1,6 @@
 # Vitexa V1 - AI Fitness & Health Platform
 
-![Vitexa Logo](https://github.com/BrookSK/Vitexa/blob/main/public/assets/images/VitexaLogo-SF-Ajustado.png)
+<img src="https://github.com/BrookSK/Vitexa/blob/main/public/assets/images/VitexaLogo-SF-Ajustado.png" alt="Vitexa Logo" width="200">
 
 **Vitexa** é uma plataforma web completa de fitness e saúde que utiliza Inteligência Artificial para criar planos personalizados de treino e dieta, oferecendo uma experiência única e motivadora para usuários que buscam melhorar sua qualidade de vida.
 
