@@ -181,9 +181,17 @@ class AuthController extends Controller {
 
             // Enviar email com o link de redefinição
             $resetLink = APP_URL . "/reset-password?token=" . $token;
-            // Aqui você integraria um serviço de envio de e-mail
-            // Ex: Mailer::send($email, "Redefinição de Senha", "Clique aqui para redefinir sua senha: " . $resetLink);
-            error_log("Link de redefinição de senha para " . $email . ": " . $resetLink); // Log para debug
+            // Serviço de envio de e-mail
+            // error_log("Link de redefinição de senha para " . $email . ": " . $resetLink); // Log para debug
+            $subject = "Redefinição de Senha - " . APP_NAME;
+            $body = "Olá,<br><br>Você solicitou a redefinição de senha para sua conta no " . APP_NAME . ".<br>";
+            $body .= "Por favor, clique no link abaixo para redefinir sua senha:<br><br>";
+            $body .= "<a href=\"" . $resetLink . "\">" . $resetLink . "</a><br><br>";
+            $body .= "Este link expirará em 1 hora.<br><br>";
+            $body .= "Se você não solicitou esta redefinição, por favor, ignore este e-mail.<br><br>";
+            $body .= "Atenciosamente,<br>A equipe " . APP_NAME;
+
+            Mailer::send($email, $subject, $body);
 
             $this->flashMessage("success", "Se o email estiver cadastrado, um link de redefinição foi enviado.");
         } else {
