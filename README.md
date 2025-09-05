@@ -239,29 +239,62 @@ vitexa/
 │   │   └── User.php
 │   ├── views/               # Views (HTML/PHP)
 │   │   ├── auth/
+│   │   │   ├── forgot_password.php
+│   │   │   ├── login.php
+│   │   │   ├── register.php
+│   │   │   └── reset_password.php
 │   │   ├── dashboard/
+│   │   │   ├── index.php
+│   │   │   ├── profile.php
+│   │   │   └── progress.php
 │   │   ├── plans/
+│   │   │   ├── index.php
+│   │   │   ├── diet.php
+│   │   │   └── workout.php
 │   │   ├── chat/
+│   │   │   └── index.php
 │   │   └── reminders/
+│   │   │   └── index.php
+│   │   └── home/
+│   │   │   └── index.php
+│   │   └── layouts/
+│   │   │   ├── app.php
+│   │   │   └── landing.php
 │   └── core/                # Classes principais
+│       ├── AuthMiddleware.php
 │       ├── Cache.php
 │       ├── Controller.php
 │       ├── Database.php
+│       ├── Mailer.php
 │       ├── Model.php
 │       ├── Router.php
 │       ├── Session.php
 │       └── View.php
 ├── config/
+│   ├── config_example.php
 │   └── config.php           # Configurações
 ├── public/
 │   ├── index.php           # Ponto de entrada
 │   ├── assets/             # CSS, JS, imagens
+│   │   ├── css/
+│   │   ├── js/
+│   │   └── images/
 │   └── .htaccess           # Configuração Apache
 ├── cron/
 │   └── process_reminders.php # Script de lembretes
 ├── logs/                   # Logs da aplicação
 ├── database.sql           # Schema do banco
 ├── install.php            # Script de instalação
+├── .env
+├── .env.example
+├── .gitignore
+├── .htaccess
+├── .htaccess_example
+├── composer.json
+├── LICENSE
+├── nginx.conf.example
+├── phpinfo.php
+├── test_mailer.php
 └── README.md              # Este arquivo
 ```
 
