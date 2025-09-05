@@ -85,13 +85,15 @@
   - OpenSSL
 - **MySQL 5.7+** ou **MariaDB 10.3+**
 - **Servidor Web**: Apache 2.4+ ou Nginx 1.18+
-- **Composer** (opcional, para dependências futuras)
+- **Composer** (necessário para gerenciar dependências, como as de envio de e-mails e outras bibliotecas futuras)
+  
+  - Se você planeja usar funcionalidades de e-mail, certifique-se de que o Composer esteja instalado e execute `composer install` na raiz do projeto para baixar as dependências.
 
 ## 🚀 Instalação
 
 ### 1. **Clone o Repositório**
 ```bash
-git clone https://github.com/seu-usuario/vitexa.git
+git clone https://github.com/BrookSK/vitexa.git
 cd vitexa
 ```
 
@@ -108,12 +110,12 @@ mysql -u root -p vitexa_db < database.sql
 
 ### 3. **Configure as Variáveis de Ambiente**
 ```bash
-# Copie o arquivo de exemplo (ENV, .HTACCESS E CONFIG.PHP)
+# Copie o arquivo de exemplo
 cp .env.example .env
 cp .htaccess.example .htaccess
 cp /config/config_example.php /config/config.php
 
-# Edite as configurações (ENV, .HTACCESS E CONFIG.PHP)
+# Edite as configurações
 nano .env
 nano .htaccess
 nano /config/config.php
@@ -336,13 +338,15 @@ define(\'APP_DEBUG\', false);
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto é de propriedade exclusiva da Vitexa e não possui licença open source.  
+O uso, cópia, modificação ou distribuição do código é estritamente proibido sem autorização prévia e por escrito da Vitexa.  
+Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## 🆘 Suporte
 
 - **Documentação Técnica**: [docs/DOCUMENTACAO_TECNICA.md](docs/DOCUMENTACAO_TECNICA.md)
 - **Documentação do Usuário**: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
-- **Issues**: [GitHub Issues](https://github.com/seu-usuario/vitexa/issues)
+- **Issues**: [GitHub Issues](https://github.com/BrookSK/vitexa/issues)
 - **Email**: suporte@vitexa.com
 - **Discord**: [Comunidade Vitexa](https://discord.gg/vitexa)
 
