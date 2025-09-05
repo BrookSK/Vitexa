@@ -33,10 +33,10 @@ define('CACHE_DIR', $_ENV['CACHE_DIR'] ?? '/tmp/vitexa_cache/');
 
 // Configurações de Email
 define('MAIL_ENABLED', $_ENV['MAIL_ENABLED'] ?? true);
-define('MAIL_FROM', $_ENV['MAIL_FROM'] ?? 'exemple@site.com.br');
+define('MAIL_FROM', $_ENV['MAIL_FROM'] ?? 'example@site.com.br');
 define('MAIL_HOST', $_ENV['MAIL_HOST'] ?? 'mail.site.com.br');
 define('MAIL_PORT', $_ENV['MAIL_PORT'] ?? 465);
-define('MAIL_USERNAME', $_ENV['MAIL_USERNAME'] ?? 'exemple@site.com.br');
+define('MAIL_USERNAME', $_ENV['MAIL_USERNAME'] ?? 'example@site.com.br');
 define('MAIL_PASSWORD', $_ENV['MAIL_PASSWORD'] ?? 'XX002');
 
 // Configurações de Push Notifications

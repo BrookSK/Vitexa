@@ -108,11 +108,15 @@ mysql -u root -p vitexa_db < database.sql
 
 ### 3. **Configure as Variáveis de Ambiente**
 ```bash
-# Copie o arquivo de exemplo
+# Copie o arquivo de exemplo (ENV, .HTACCESS E CONFIG.PHP)
 cp .env.example .env
+cp .htaccess.example .htaccess
+cp /config/config_example.php /config/config.php
 
-# Edite as configurações
+# Edite as configurações (ENV, .HTACCESS E CONFIG.PHP)
 nano .env
+nano .htaccess
+nano /config/config.php
 ```
 
 Exemplo de configuração `.env`:
@@ -190,67 +194,11 @@ crontab -e
 
 ## 🎯 Como Usar
 
-### **1. Primeiro Acesso**
-1. Acesse `http://seu-dominio.com`
-2. Clique em "Cadastrar"
-3. Preencha seus dados pessoais (nome, email, idade, peso, altura, objetivo)
-4. Faça login com suas credenciais
-
-### **2. Dashboard Principal**
-- **Visão Geral**: Estatísticas do seu progresso
-- **Treino do Dia**: Exercícios programados para hoje
-- **Dieta do Dia**: Refeições planejadas
-- **Progresso Recente**: Suas últimas medições
-
-### **3. Gerando Planos**
-1. Vá para "Meus Planos"
-2. Clique em "Gerar Novo Plano" (Treino ou Dieta)
-3. Aguarde a IA processar seu perfil
-4. Visualize seu plano personalizado
-
-### **4. Acompanhando Progresso**
-1. Acesse "Progresso"
-2. Clique em "Registrar Progresso Hoje"
-3. Insira peso, percentual de gordura (opcional), massa muscular (opcional)
-4. Adicione observações sobre como se sente
-5. Visualize gráficos de evolução
-
-### **5. Chat com IA**
-1. Acesse "Chat IA"
-2. Digite suas dúvidas sobre treino, dieta ou saúde
-3. Receba respostas personalizadas baseadas no seu perfil
-4. Use as sugestões de perguntas para começar
-
-### **6. Configurando Lembretes**
-1. Vá para "Lembretes"
-2. Clique em "Novo Lembrete"
-3. Configure título, tipo, horário e dias da semana
-4. Ative/desative conforme necessário
+Para um guia detalhado sobre como utilizar todas as funcionalidades do Vitexa, consulte a **[Documentação do Usuário](docs/USER_GUIDE.md)**.
 
 ## 🔧 Configuração Avançada
 
-### **Chave da API OpenAI**
-1. Crie uma conta em [OpenAI](https://platform.openai.com/)
-2. Gere uma chave API
-3. Configure em `config/config.php` ou `.env`
-
-### **Email SMTP**
-```php
-// Em config/config.php
-define('MAIL_ENABLED', true);
-define('MAIL_HOST', 'smtp.gmail.com');
-define('MAIL_PORT', 587);
-define('MAIL_USERNAME', 'seu_email@gmail.com');
-define('MAIL_PASSWORD', 'sua_senha_app');
-```
-
-### **Cache Personalizado**
-```php
-// Configurações de cache
-define('CACHE_ENABLED', true);
-define('CACHE_TTL', 7200); // 2 horas
-define('CACHE_DIR', '/custom/cache/path/');
-```
+Para informações detalhadas sobre a arquitetura do sistema, controladores, modelos, configurações e segurança, consulte a **[Documentação Técnica](docs/DOCUMENTACAO_TECNICA.md)**.
 
 ## 🧪 Testes
 
@@ -278,14 +226,15 @@ vitexa/
 ├── app/
 │   ├── controllers/          # Controladores MVC
 │   │   ├── AuthController.php
-│   │   ├── UserController.php
-│   │   ├── PlanController.php
+│   │   ├── HomeController.php
+│   │   ├── ReminderController.php
 │   │   ├── ChatController.php
-│   │   └── ReminderController.php
+│   │   ├── PlanController.php
+│   │   └── UserController.php
 │   ├── models/              # Modelos de dados
-│   │   ├── User.php
+│   │   ├── Message.php
 │   │   ├── Plan.php
-│   │   └── Message.php
+│   │   └── User.php
 │   ├── views/               # Views (HTML/PHP)
 │   │   ├── auth/
 │   │   ├── dashboard/
@@ -293,13 +242,13 @@ vitexa/
 │   │   ├── chat/
 │   │   └── reminders/
 │   └── core/                # Classes principais
-│       ├── Database.php
-│       ├── Router.php
+│       ├── Cache.php
 │       ├── Controller.php
+│       ├── Database.php
 │       ├── Model.php
-│       ├── View.php
+│       ├── Router.php
 │       ├── Session.php
-│       └── Cache.php
+│       └── View.php
 ├── config/
 │   └── config.php           # Configurações
 ├── public/
@@ -340,7 +289,7 @@ vitexa/
 sudo apt update
 sudo apt install php8.0 php8.0-mysql php8.0-curl php8.0-json mysql-server nginx
 
-# Configure SSL com Let's Encrypt
+# Configure SSL com Let\'s Encrypt
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d seu-dominio.com
 ```
@@ -348,8 +297,8 @@ sudo certbot --nginx -d seu-dominio.com
 ### **2. Configuração de Produção**
 ```php
 // Em config/config.php
-define('APP_ENV', 'production');
-define('APP_DEBUG', false);
+define(\'APP_ENV\', \'production\');
+define(\'APP_DEBUG\', false);
 ```
 
 ### **3. Otimizações**
@@ -363,7 +312,7 @@ define('APP_DEBUG', false);
 
 1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+3. Commit suas mudanças (`git commit -m \'Add some AmazingFeature\'`) 
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
@@ -380,13 +329,19 @@ define('APP_DEBUG', false);
 - ✅ Cache para otimização de performance
 - ✅ Interface mobile-first responsiva
 
+### **v1.0.1** (2025-09-05)
+- ✅ Correção do campo de input do chat no mobile
+- ✅ Documentação técnica atualizada e expandida
+- ✅ Nova documentação para o usuário final
+
 ## 📄 Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 🆘 Suporte
 
-- **Documentação**: [docs/](docs/)
+- **Documentação Técnica**: [docs/DOCUMENTACAO_TECNICA.md](docs/DOCUMENTACAO_TECNICA.md)
+- **Documentação do Usuário**: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
 - **Issues**: [GitHub Issues](https://github.com/seu-usuario/vitexa/issues)
 - **Email**: suporte@vitexa.com
 - **Discord**: [Comunidade Vitexa](https://discord.gg/vitexa)
@@ -403,4 +358,3 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 **Desenvolvido com ❤️ pela equipe Vitexa**
 
 *Transformando vidas através da tecnologia e inteligência artificial aplicada ao fitness e saúde.*
-
