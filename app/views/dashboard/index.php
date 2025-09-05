@@ -111,7 +111,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
                                 <p class="text-gray-500 mb-4">Dia de descanso! 😴</p>
-                                <a href="<?= APP_URL ?>/plans/generate" class="text-primary-600 hover:text-primary-800 text-sm">
+                                <a href="<?= APP_URL ?>/plans/workout" class="text-primary-600 hover:text-primary-800 text-sm">
                                     Gerar novo plano de treino
                                 </a>
                             </div>
@@ -122,7 +122,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
                             <p class="text-gray-500 mb-4">Nenhum plano de treino ativo</p>
-                            <a href="<?= APP_URL ?>/plans/generate" class="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700 transition duration-150">
+                            <a href="<?= APP_URL ?>/plans/workout" class="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700 transition duration-150">
                                 Gerar Plano de Treino
                             </a>
                         </div>
@@ -193,7 +193,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
                             <p class="text-gray-500 mb-4">Nenhum plano de dieta ativo</p>
-                            <a href="<?= APP_URL ?>/plans/generate" class="bg-success-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-success-700 transition duration-150">
+                            <a href="<?= APP_URL ?>/plans/diet" class="bg-success-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-success-700 transition duration-150">
                                 Gerar Plano de Dieta
                             </a>
                         </div>
