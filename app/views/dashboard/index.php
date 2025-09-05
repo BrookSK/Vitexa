@@ -264,6 +264,9 @@
                             </svg>
                             Lembretes Ativos
                         </h2>
+                        <?php if (!empty($reminders)): ?>
+                            <button onclick="openReminderModal()" class="text-reminders-600 text-sm hover:text-secondary-800">Criar novo lembrete</button>
+                        <?php endif; ?>
                     </div>
 
                     <?php if (!empty($reminders)): ?>
