@@ -93,7 +93,7 @@
     </div>
 
     <!-- Área de Input -->
-    <div class="bg-white border-t border-gray-200 px-4 py-3 fixed bottom-0 left-0 right-0 md:relative">
+    <div class="bg-white border-t border-gray-200 px-4 py-3 fixed bottom-16 md:bottom-0 left-0 right-0 md:relative z-40">
         <form id="chatForm" onsubmit="sendMessage(event)" class="flex items-center space-x-3">
             <input type="hidden" name="_token" value="<?= $csrf_token ?>">
             <div class="flex-1 relative">
@@ -122,7 +122,7 @@
 
     <!-- Sugestões de Perguntas (aparece quando não há mensagens) -->
     <?php if (empty($conversations)): ?>
-        <div class="px-4 pb-4">
+        <div class="px-4 pb-20 md:pb-4">
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <h3 class="text-sm font-medium text-gray-900 mb-3">💡 Perguntas frequentes:</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
