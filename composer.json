@@ -1,0 +1,14 @@
+{
+    "name": "vitexa/vitexa",
+    "description": "Sistema Vitexa com PHPMailer",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vitexa\\": "app/"
+        }
+    }
+}
+

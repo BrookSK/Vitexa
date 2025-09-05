@@ -113,22 +113,64 @@ function sendReminderNotification($reminder) {
  * Enviar notificação por email
  */
 function sendEmailNotification($reminder, $message) {
-    // Implementação básica de email
-    // Você pode usar PHPMailer ou outra biblioteca mais robusta
+    // Usar a nova classe Mailer com PHPMailer
+    require_once ROOT_DIR . '/app/core/Mailer.php';
     
     $to = $reminder['user_email'];
     $subject = "Vitexa - " . $reminder['title'];
-    $body = $message . "\n\nVitexa - Seu companheiro de fitness e saúde";
     
-    $headers = [
-        'From: ' . (defined('MAIL_FROM') ? MAIL_FROM : 'noreply@vitexa.com'),
-        'Content-Type: text/plain; charset=UTF-8'
+    // Criar corpo do email em HTML
+    $htmlBody = "
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; background-color: #f9f9f9; }
+            .footer { padding: 10px; text-align: center; font-size: 12px; color: #666; }
+            .reminder-box { background-color: white; border-left: 4px solid #4CAF50; padding: 15px; margin: 10px 0; }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                <h1>🔔 Lembrete Vitexa</h1>
+            </div>
+            <div class='content'>
+                <div class='reminder-box'>
+                    <h2>{$reminder['title']}</h2>
+                    " . (!empty($reminder['message']) ? "<p><strong>Mensagem:</strong> {$reminder['message']}</p>" : "") . "
+                    <p><strong>Tipo:</strong> {$reminder['type']}</p>
+                    <p><strong>Horário:</strong> " . date('d/m/Y H:i') . "</p>
+                </div>
+                <p>Este é um lembrete automático do seu sistema Vitexa para ajudá-lo a manter seus hábitos saudáveis.</p>
+            </div>
+            <div class='footer'>
+                <p>Vitexa - Seu companheiro de fitness e saúde</p>
+                <p>Este é um email automático, não responda.</p>
+            </div>
+        </div>
+    </body>
+    </html>";
+    
+    // Versão texto alternativa
+    $textBody = strip_tags($message) . "\n\nVitexa - Seu companheiro de fitness e saúde";
+    
+    $options = [
+        'is_html' => true,
+        'alt_body' => $textBody
     ];
     
-    if (mail($to, $subject, $body, implode("\r\n", $headers))) {
-        echo "📧 Email enviado para {$to}\n";
-    } else {
-        throw new Exception("Falha ao enviar email para {$to}");
+    try {
+        if (Mailer::send($to, $subject, $htmlBody, $options)) {
+            echo "📧 Email enviado para {$to}\n";
+        } else {
+            throw new Exception("Falha ao enviar email para {$to}");
+        }
+    } catch (Exception $e) {
+        throw new Exception("Erro no envio de email: " . $e->getMessage());
     }
 }
 
@@ -192,4 +234,3 @@ function logNotification($reminder, $message) {
     
     file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
 }
-
